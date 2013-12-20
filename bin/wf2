@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require "fileutils"
+
 class App
 
   def self.cmds
@@ -27,8 +29,40 @@ class App
     exit 1
   end
 
+  def skeleton_dir
+    File.expand_path("../../skeletons", __FILE__)
+  end
+
+  def copy_skeleton(name, to)
+    FileUtils.cp_r("#{skeleton_dir}/#{name}", to)
+  end
+
+  def responses_dir
+    File.expand_path("../../responses", __FILE__)
+  end
+
+  def respond_with(response_name)
+    response_lines = IO.readlines("#{responses_dir}/#{response_name}.txt")
+    response_lines.each { |l| sleep 0.001; puts l }
+  end
+
+
   cmd(:create_app) do
-    # TODO
+    name = ARGV[0]
+    if name.nil?
+      # in real version we might allow `wf2 create-app .` to "initialize" an
+      # existing app as a chefapp...
+      puts "Usage: wf2 create-app APPNAME"
+    elsif name != "demo"
+      puts "This app is in demo mode. Send your CC details to sales@getchef.com to unlock. #lolz"
+      exit 1
+    end
+    if File.exist?("demo")
+      puts "conflict: there is already a file/directory named 'demo' in this directory"
+      exit 1
+    end
+    copy_skeleton("generated_app", "demo")
+    respond_with("create_app")
   end
 
   cmd(:run_local) do

@@ -1,0 +1,19 @@
+# Chef Policy file generated for application "demo"
+
+name "demo"
+
+# which recipes to run when applying this policy to a node:
+run_list "recipe[demo::default]"
+
+# TODO: would this be in the default skeleton?
+run_list :quick_app_deploy, "recipe[demo::just_the_app_please]"
+
+# Any cookbook without an explicit source comes from here:
+default_source "https://community-api.getchef.com"
+
+# Override the source of the "demo" cookbook:
+cookbook "demo", :path => "./cookbooks"
+
+default_attributes "foo" => "bar"
+override_attributes "foo" => "baz"
+

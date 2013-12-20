@@ -1,0 +1,8 @@
+=> Using default application layout
+=> created demo/README.md
+=> created demo/Metalfile
+=> created demo/Policyfile
+=> created demo/cookbooks
+=> created "demo" cookbook
+
+=> created application "demo" in "./demo"

@@ -1,0 +1,13 @@
+# This is a total SWAG.
+# the purpose of this file is to define the local dev/test environments.
+# Ideally it could at least go as far as being able to create a cloud
+# cluster of your stuff for testing.
+# The plan is this will be based on https://github.com/jkeiser/chef-metal
+
+environment(:local_dev) do
+  # code to specify a vagrant box...
+end
+
+environment(:local_test) do
+  # code to specify a vagrant box...
+end
