@@ -1,3 +1,3 @@
-# Chef Application Policy for "Demo"
+# Chef Application for "Demo"
 
 words.
