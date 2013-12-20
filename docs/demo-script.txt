@@ -1,0 +1,116 @@
+$ wf2 create-app demo
+
+=> print any relevant global config
+=> generate skeleton
+=> tell the user what's next
+
+$ cd demo
+$ ls -R
+
+=> What's in the skeleton?
+
+.git/blahblahblah # autodetect if git is installed? global config for repo-initing?
+
+Policyfile
+
+Metalfile
+
+cookbooks/
+cookbooks/demo/
+cookbooks/demo/metadata.rb
+cookbooks/demo/recipes/
+cookbooks/demo/recipes/default.rb
+
+
+$ cat Policyfile
+
+=> (this is the extended berksfile)
+
+> name "demo"
+>
+> # which recipes to run when applying this policy to a node:
+> run_list "recipe[demo::default]"
+>
+> # TODO: would this be in the default skeleton?
+> run_list :quick_app_deploy, "recipe[demo::just_the_app_please]"
+>
+> # Any cookbook without an explicit source comes from here:
+> default_source "https://community-api.getchef.com"
+>
+> # Override the source of the "demo" cookbook:
+> cookbook "demo", :path => "./cookbooks"
+>
+> default_attributes "foo" => "bar"
+> override_attributes "foo" => "baz"
+
+$ cat Metalfile
+
+=> default config for how dev and test VM instances are launched
+=> probably defaults to vagrant, but could have commented out instructions for
+   a "null" provisioner to manually managed VM or whatever.
+
+$ wf2 run-local
+
+=> run w/ chef-zero local mode.
+=> should have a log/file/whatever resource that does something
+
+$ wf2 test-local
+
+=> chefspec
+
+$ $EDITOR hack code
+
+=> Make the cookbook(s) do more than just print stuff
+
+$ wf2 run-vm
+
+=> default config? Vagrant?
+=> vagrant isn't installed, print instructions
+
+$ install-the-vagrant
+
+=> vbox/vagrant/etc.
+
+$ wf2 run-vm
+
+=> create/resume VM, run 
+=> see output from chef run
+
+$ wf2 login-dev (?)
+
+=> ssh into the box
+
+$ wf2 test-vm
+
+=> runs TK
+
+$ wf2 login-test (?)
+
+=> ssh into test box
+
+$ wf2 deploy ENV_NAME (or cell name, whatever)
+
+=> user hasn't configured any server, so prompt them to figure this out...
+
+$ $EDITOR hack server creds
+
+=> get client.pem, username
+
+$ wf2 deploy ENV_NAME (or cell name, whatever)
+
+=> compile policy to json (Policyfile.lock)
+=> upload cookbooks
+=> upload policy, apply to env/cell/deploy-group
+
+##QUESTION##
+what now? provision a node w/ chef-metal?
+future pushy integration will be cool, not in 1.0
+
+$ wf2 apply? $VERB 
+
+## Possible cmds: ##
+
+`wf2 provision`: create some nodes from Metalfile
+`wf2 up/push`: just upload objects to chef server
+`wf2 deploy`: figures out what nodes should get the changes, provision if necessary, do up/push, ssh-to-chef?
+
