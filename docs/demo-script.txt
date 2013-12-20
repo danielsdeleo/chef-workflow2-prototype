@@ -54,7 +54,7 @@ $ wf2 run-local
 => run w/ chef-zero local mode.
 => should have a log/file/whatever resource that does something
 
-$ wf2 test-local
+$ wf2 unit-test
 
 => chefspec
 
@@ -80,7 +80,7 @@ $ wf2 login-dev (?)
 
 => ssh into the box
 
-$ wf2 test-vm
+$ wf2 integration-test
 
 => runs TK
 

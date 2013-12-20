@@ -1,0 +1,67 @@
+#!/usr/bin/env ruby
+
+class App
+
+  def self.cmds
+    @cmds ||= {}
+  end
+
+  def self.cmd(name, &block)
+    cmds[name.to_s.gsub("_", "-")] = name
+    define_method(name, &block)
+  end
+
+  def run
+    if cmd = ARGV[0] and cmd_method = self.class.cmds[cmd]
+      ARGV.shift
+      send(cmd_method)
+    else
+      help_and_exit
+    end
+  end
+
+  def help_and_exit
+    puts "Available commands:"
+    puts ""
+    puts self.class.cmds.keys
+    exit 1
+  end
+
+  cmd(:create_app) do
+    # TODO
+  end
+
+  cmd(:run_local) do
+    # TODO
+  end
+
+  cmd(:unit_test) do
+    # TODO
+  end
+
+  cmd(:run_vm) do
+    # TODO
+  end
+
+  cmd(:login_dev) do
+    # TODO
+  end
+
+  cmd(:login_test) do
+    # TODO
+  end
+
+  cmd(:provision) do
+    # TODO
+  end
+
+  cmd(:push) do
+    # TODO
+  end
+
+  cmd(:deploy) do
+    # TODO
+  end
+end
+
+App.new.run
