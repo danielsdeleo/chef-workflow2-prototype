@@ -1,0 +1,4 @@
+{
+  "name": "local",
+  "run_list": [ "recipe[demo::default]" ]
+}

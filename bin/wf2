@@ -65,8 +65,16 @@ class App
     respond_with("create_app")
   end
 
+  def ensure_in_correct_dir
+    unless File.basename(Dir.pwd) == "demo"
+      puts "Error: not in a valid application directory"
+      exit 1
+    end
+  end
+
   cmd(:run_local) do
-    # TODO
+    ensure_in_correct_dir
+    exec "chef-client", "-z", "-N", "local", "-c", "client-local.rb"
   end
 
   cmd(:unit_test) do
