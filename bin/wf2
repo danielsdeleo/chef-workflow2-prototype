@@ -78,7 +78,8 @@ class App
   end
 
   cmd(:unit_test) do
-    # TODO
+    ensure_in_correct_dir
+    exec "rspec", "spec/unit/default_spec.rb", "--format", "documentation", "--color"
   end
 
   cmd(:run_vm) do
