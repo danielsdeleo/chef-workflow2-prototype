@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require "fileutils"
-require "pry-debugger"
+require 'pry-debugger'
 
 class App
 
@@ -132,8 +132,8 @@ class App
     end
   end
 
-  cmd(:run) do
-    environment = ARGV[1]
+  cmd(:converge) do
+    environment = ARGV[0]
     ensure_in_correct_dir
     case environment
     when "local"
@@ -148,7 +148,7 @@ class App
   end
 
   cmd(:test) do
-    specs = ARGV[1]
+    specs = ARGV[0]
     ensure_in_correct_dir
     case specs
     when "unit"
@@ -166,7 +166,7 @@ class App
   end
 
   cmd(:provision) do
-    environment = ARGV[1]
+    environment = ARGV[0]
     ensure_in_correct_dir
     case environment
     when "development", "test", "staging"
