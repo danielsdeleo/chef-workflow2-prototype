@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require "fileutils"
+require "pry-debugger"
 
 class App
 
@@ -43,9 +44,52 @@ class App
 
   def respond_with(response_name)
     response_lines = IO.readlines("#{responses_dir}/#{response_name}.txt")
-    response_lines.each { |l| sleep 0.001; puts l }
+    response_lines.each { |l|
+      if l.start_with? "##"
+        meta_command = l.gsub("#", "").split(" ")
+        case meta_command[0]
+        when "progress"
+          progress_time = meta_command[1].to_i
+          while progress_time > 0
+            putc "."
+            sleep 0.5
+            progress_time -= 0.5
+          end
+          puts ""
+        else
+          "Unkown meta command #{l}"
+          exit 1
+        end
+      else
+        sleep 0.001;
+        puts l
+      end
+    }
   end
 
+  def ensure_vagrant_installed
+    if !File.exists?(".vagrant-installed")
+      puts "Your environment is configured to use :vagrant provider for provisioning."
+      puts "But vagrant is not installed. Would you like to install & configure it? [Y/n]"
+      response = STDIN.gets.chomp
+      if response == "" || response.downcase == "y"
+        respond_with("install_vagrant")
+        FileUtils.touch ".vagrant-installed"
+      else
+        puts "Vagrant needes to be installed on the system before continueing."
+        puts "For more information: http://www.vagrantup.com/"
+        exit 1
+      end
+    end
+  end
+
+  def provision_env(environment)
+    if environment == "development" || environment == "test"
+      ensure_vagrant_installed
+    end
+
+    puts "Provisioning environment"
+  end
 
   cmd(:create_app) do
     name = ARGV[0]
@@ -72,30 +116,56 @@ class App
     end
   end
 
-  cmd(:run_local) do
+  cmd(:run) do
+    environment = ARGV[1]
     ensure_in_correct_dir
-    exec "chef-client", "-z", "-N", "local", "-c", "client-local.rb"
+    case environment
+    when "local"
+      exec "chef-client", "-z", "-N", "local", "-c", "client-local.rb"
+    when "development"
+      provision_env(environment)
+    when "test"
+      'TODO: Will run chef on the test box.'
+    when "staging"
+      'TODO: Will run chef in staging.'
+    else
+      puts "Unknown environment: #{environment}"
+      puts "Please specify a valid environment: local, development, test, staging"
+    end
   end
 
-  cmd(:unit_test) do
+  cmd(:test) do
+    specs = ARGV[1]
     ensure_in_correct_dir
-    exec "rspec", "spec/unit/default_spec.rb", "--format", "documentation", "--color"
+    case specs
+    when "unit"
+      exec "rspec", "spec/unit/default_spec.rb", "--format", "documentation", "--color"
+    when "integration"
+      puts "TODO: Will run test kitchen now."
+    else
+      puts "Unknown test switch: #{specs}"
+      puts "Please specify a valid swithc: unit, integration"
+    end
   end
 
-  cmd(:run_vm) do
-    # TODO
-  end
-
-  cmd(:login_dev) do
-    # TODO
-  end
-
-  cmd(:login_test) do
+  cmd(:login) do
     # TODO
   end
 
   cmd(:provision) do
-    # TODO
+    environment = ARGV[1]
+    ensure_in_correct_dir
+    case environment
+    when "development"
+      'TODO: Will provision development box.'
+    when "test"
+      'TODO: Will provision test box.'
+    when "staging"
+      'TODO: Will provision staging.'
+    else
+      puts "Unknown environment: #{environment}"
+      puts "Please specify a valid environment: development, test, staging"
+    end
   end
 
   cmd(:push) do
