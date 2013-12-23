@@ -68,13 +68,13 @@ class App
   end
 
   def ensure_vagrant_installed
-    if !File.exists?(".vagrant-installed")
+    if !File.exists?(".wf2/.vagrant-installed")
       puts "Your environment is configured to use :vagrant provider for provisioning."
       puts "But vagrant is not installed. Would you like to install & configure it? [Y/n]"
       response = STDIN.gets.chomp
       if response == "" || response.downcase == "y"
         respond_with("install_vagrant")
-        FileUtils.touch ".vagrant-installed"
+        FileUtils.touch ".wf2/.vagrant-installed"
       else
         puts "Vagrant needes to be installed on the system before continueing."
         puts "For more information: http://www.vagrantup.com/"
@@ -86,9 +86,11 @@ class App
   def provision_env(environment)
     if environment == "development" || environment == "test"
       ensure_vagrant_installed
+      puts "=> Provisioning '#{environment}' using 'vagrant':"
+      system "cd .wf2 && vagrant up #{environment} --no-provision && cd .."
+    else
+      puts "TODO: Provisioning environment: #{environment}"
     end
-
-    puts "Provisioning environment"
   end
 
   cmd(:create_app) do
