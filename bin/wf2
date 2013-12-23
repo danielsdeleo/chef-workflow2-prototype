@@ -83,13 +83,27 @@ class App
     end
   end
 
+  def run_env(environment)
+    if environment == "development" || environment == "test"
+      puts "=> Running chef on '#{environment}' using 'vagrant':"
+      system "cd .wf2 && vagrant provision #{environment} && cd .."
+    else
+      puts "TODO: Run chef for staging."
+    end
+  end
+
   def provision_env(environment)
     if environment == "development" || environment == "test"
       ensure_vagrant_installed
-      puts "=> Provisioning '#{environment}' using 'vagrant':"
-      system "cd .wf2 && vagrant up #{environment} --no-provision && cd .."
+      if !File.exists? ".wf2/#{environment}.provision"
+        puts "=> Provisioning '#{environment}' using 'vagrant':"
+        system "cd .wf2 && vagrant up #{environment} --no-provision && cd .."
+        FileUtils.touch ".wf2/#{environment}.provision"
+      else
+        puts "=> '#{environment}' is already provisioned."
+      end
     else
-      puts "TODO: Provisioning environment: #{environment}"
+      puts "TODO: Provision for staging."
     end
   end
 
@@ -124,12 +138,9 @@ class App
     case environment
     when "local"
       exec "chef-client", "-z", "-N", "local", "-c", "client-local.rb"
-    when "development"
+    when "development", "test", "staging"
       provision_env(environment)
-    when "test"
-      'TODO: Will run chef on the test box.'
-    when "staging"
-      'TODO: Will run chef in staging.'
+      run_env(environment)
     else
       puts "Unknown environment: #{environment}"
       puts "Please specify a valid environment: local, development, test, staging"
@@ -158,12 +169,8 @@ class App
     environment = ARGV[1]
     ensure_in_correct_dir
     case environment
-    when "development"
-      'TODO: Will provision development box.'
-    when "test"
-      'TODO: Will provision test box.'
-    when "staging"
-      'TODO: Will provision staging.'
+    when "development", "test", "staging"
+      provision_env(environment)
     else
       puts "Unknown environment: #{environment}"
       puts "Please specify a valid environment: development, test, staging"
