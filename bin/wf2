@@ -169,7 +169,13 @@ class App
   end
 
   cmd(:login) do
-    # TODO
+    environment = ARGV[0]
+    ensure_in_correct_dir
+    if environment == "development" || environment == "test"
+      system "cd .wf2 && vagrant ssh #{environment} && cd .."
+    else
+      puts "TODO: Login to staging."
+    end
   end
 
   cmd(:provision) do
