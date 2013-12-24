@@ -1,0 +1,4 @@
+site :opscode
+
+cookbook 'demo', path: '../cookbooks/demo'
+cookbook 'postgresql', :git => "git@github.com:hw-cookbooks/postgresql.git", :tag => "v3.3.4"
