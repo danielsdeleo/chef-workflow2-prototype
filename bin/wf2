@@ -154,7 +154,14 @@ class App
     when "unit"
       exec "rspec", "spec/unit/default_spec.rb", "--format", "documentation", "--color"
     when "integration"
-      puts "TODO: Will run test kitchen now."
+      # There is a bug in test-kitchen where
+      # Running test-kitchen directly here, we're hitting this issue: 
+      # https://github.com/mitchellh/vagrant/issues/2309
+      # The first time run fails and the second one succeeds.
+      # For a beautiful demo we run it once silenced and twice with all of its glory.
+      puts "=> Setting up integration testing environment..."
+      system "kitchen create >/dev/null 2>&1"
+      exec "kitchen", "test"
     else
       puts "Unknown test switch: #{specs}"
       puts "Please specify a valid swithc: unit, integration"
