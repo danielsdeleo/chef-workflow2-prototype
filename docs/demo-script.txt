@@ -51,6 +51,28 @@ $ cat Metalfile
 
 $ wf2 converge local
 
+=> Error: you must compile your policy with `wf2 compile` before
+  converging
+
+$ wf2 compile
+
+> Compiling ./Policyfile
+> Compiling policy "demo"
+> Expanded run_list to: recipe[demo::default]
+> Using cookbook "demo" version 0.1.0 from path ./cookbooks/demo
+>
+> Policy compiled. Use `wf2 compile` to update dependencies.
+
+## DISCUSSION ##
+# In the interest of speed (and quick dev feedback) we want to avoid
+# hitting the network wherever possible. Therefore, we want to avoid
+# recomputing the entire dependency solution (which may include git or
+# cookbook site operations). However, we also don't want to create a
+# situation where users are required to constantly type the same command
+# over and over again.
+
+$ wf2 converge local
+
 => run w/ chef-zero local mode.
 => should have a log/file/whatever resource that does something
 
@@ -61,6 +83,28 @@ $ wf2 test unit
 $ $EDITOR hack code
 
 => Make the cookbook(s) do more than just print stuff
+
+## DISCUSSION: ##
+# For demo purposes, we want to use a community cookbook here, I think.
+
+$ wf2 compile
+
+## DISCUSSION:##
+# This step is only required if we suppose we're using a community
+# cookbook, which might come a lot later in the related learnchef
+# content for this tool.
+#
+# We also need to think about the error case here. What happens if the
+# user doesn't recompile the policy?
+
+> Compiling ./Policyfile
+> Compiling policy "demo"
+> Expanded run_list to: recipe[demo::default]
+> Using cookbook "demo" version 0.1.0 from path ./cookbooks/demo
+> Using cookbook "tmux" version 1.4.2 from https://api.community.getchef.com
+>
+> Policy compiled. Use `wf2 compile` to update dependencies.
+
 
 $ wf2 converge development
 
