@@ -49,12 +49,12 @@ $ cat Metalfile
 => probably defaults to vagrant, but could have commented out instructions for
    a "null" provisioner to manually managed VM or whatever.
 
-$ wf2 run-local
+$ wf2 converge local
 
 => run w/ chef-zero local mode.
 => should have a log/file/whatever resource that does something
 
-$ wf2 unit-test
+$ wf2 test unit
 
 => chefspec
 
@@ -62,7 +62,7 @@ $ $EDITOR hack code
 
 => Make the cookbook(s) do more than just print stuff
 
-$ wf2 run-vm
+$ wf2 converge development
 
 => default config? Vagrant?
 => vagrant isn't installed, print instructions
@@ -71,22 +71,26 @@ $ install-the-vagrant
 
 => vbox/vagrant/etc.
 
-$ wf2 run-vm
+$ wf2 converge development
 
 => create/resume VM, run 
 => see output from chef run
 
-$ wf2 login-dev (?)
+$ wf2 login development
 
-=> ssh into the box
+=> Get ssh session on the box
+=> Do something to show the box was converged
+=> exit ssh session
 
-$ wf2 integration-test
+$ wf2 test integration
 
 => runs TK
 
-$ wf2 login-test (?)
+$ wf2 login test
 
-=> ssh into test box
+=> Get ssh session on TK box
+=> poke at it to see it was converged
+=> exit ssh session
 
 $ wf2 deploy ENV_NAME (or cell name, whatever)
 

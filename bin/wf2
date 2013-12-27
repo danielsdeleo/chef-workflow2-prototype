@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require "fileutils"
-require 'pry-debugger'
+#require 'pry-debugger'
 
 class App
 
@@ -57,7 +57,7 @@ class App
           end
           puts ""
         else
-          "Unkown meta command #{l}"
+          puts "Unkown meta command #{l}"
           exit 1
         end
       else
