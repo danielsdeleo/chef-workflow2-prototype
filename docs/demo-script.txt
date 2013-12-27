@@ -69,7 +69,16 @@ $ wf2 compile
 # recomputing the entire dependency solution (which may include git or
 # cookbook site operations). However, we also don't want to create a
 # situation where users are required to constantly type the same command
-# over and over again.
+# over and over again. 
+#
+# Because we've chosen to generate cookbook identifiers from the content
+# of the cookbooks, we need to ensure that the identifiers for on-disk
+# cookbooks are updated before we upload them to the outside world or
+# use the identifiers for comparison (e.g., a `diff` tool)
+
+$ cat Policyfile.lock.json
+
+=> See Policyfile.lock.json
 
 $ wf2 converge local
 

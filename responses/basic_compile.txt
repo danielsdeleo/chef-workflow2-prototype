@@ -1,0 +1,6 @@
+Compiling ./Policyfile
+Compiling policy "demo"
+Expanded run_list to: recipe[demo::default]
+Using cookbook "demo" version 0.1.0 from path ./cookbooks/demo
+
+Policy compiled. Run `wf2 compile` again to fetch new dependencies.

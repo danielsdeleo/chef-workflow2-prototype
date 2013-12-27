@@ -38,6 +38,10 @@ class App
     FileUtils.cp_r("#{skeleton_dir}/#{name}", to)
   end
 
+  def generate_from_skeleton(skel_name, rel_path, to)
+    FileUtils.cp("#{skeleton_dir}/#{skel_name}/#{rel_path}", to)
+  end
+
   def responses_dir
     File.expand_path("../../responses", __FILE__)
   end
@@ -132,9 +136,22 @@ class App
     end
   end
 
+  def ensure_policy_compiled
+    unless File.exist?("Policyfile.lock.json")
+      puts "Error: you must compile your policy with `wf2 compile` before converging"
+      exit 1
+    end
+  end
+
+  cmd(:compile) do
+    generate_from_skeleton("basic_policy", "Policyfile.lock.json", "Policyfile.lock.json")
+    respond_with("basic_compile")
+  end
+
   cmd(:converge) do
     environment = ARGV[0]
     ensure_in_correct_dir
+    ensure_policy_compiled
     case environment
     when "local"
       exec "chef-client", "-z", "-N", "local", "-c", "client-local.rb"
@@ -150,6 +167,7 @@ class App
   cmd(:test) do
     specs = ARGV[0]
     ensure_in_correct_dir
+    ensure_policy_compiled
     case specs
     when "unit"
       exec "rspec", "spec/unit/default_spec.rb", "--format", "documentation", "--color"
@@ -181,6 +199,7 @@ class App
   cmd(:provision) do
     environment = ARGV[0]
     ensure_in_correct_dir
+    ensure_policy_compiled
     case environment
     when "development", "test", "staging"
       provision_env(environment)
