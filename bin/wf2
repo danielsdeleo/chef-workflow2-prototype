@@ -9,13 +9,16 @@ class App
     @cmds ||= {}
   end
 
-  def self.cmd(name, &block)
-    cmds[name.to_s.gsub("_", "-")] = name
+  def self.cmd(name, desc, &block)
+    cmds[name.to_s.gsub("_", "-")] = {
+      :method => name,
+      :description => desc
+    }
     define_method(name, &block)
   end
 
   def run
-    if cmd = ARGV[0] and cmd_method = self.class.cmds[cmd]
+    if cmd = ARGV[0] and self.class.cmds[cmd] and cmd_method = self.class.cmds[cmd][:method]
       ARGV.shift
       send(cmd_method)
     else
@@ -26,7 +29,10 @@ class App
   def help_and_exit
     puts "Available commands:"
     puts ""
-    puts self.class.cmds.keys
+    self.class.cmds.each do |cmd, value|
+      puts "#{cmd}:"
+      puts "  #{value[:description]}"
+    end
     exit 1
   end
 
@@ -111,7 +117,7 @@ class App
     end
   end
 
-  cmd(:create_app) do
+  cmd(:create_app, "Create a new Chef application") do
     name = ARGV[0]
     if name.nil?
       # in real version we might allow `wf2 create-app .` to "initialize" an
@@ -143,7 +149,7 @@ class App
     end
   end
 
-  cmd(:compile) do
+  cmd(:compile, "Update the Chef policy before deployments") do
     if !File.exist?("Policyfile.lock.json")
       generate_from_skeleton("basic_policy", "Policyfile.lock.json", "Policyfile.lock.json")
       respond_with("basic_compile")
@@ -153,11 +159,11 @@ class App
     end
   end
 
-  cmd(:diff) do
+  cmd(:diff, "Check local changes against Chef Server") do
     respond_with("diff_policy")
   end
 
-  cmd(:converge) do
+  cmd(:converge, "Apply changes to an environment") do
     environment = ARGV[0]
     ensure_in_correct_dir
     ensure_policy_compiled
@@ -173,7 +179,7 @@ class App
     end
   end
 
-  cmd(:test) do
+  cmd(:test, "Run unit or integration tests for Chef Application") do
     specs = ARGV[0]
     ensure_in_correct_dir
     ensure_policy_compiled
@@ -195,7 +201,7 @@ class App
     end
   end
 
-  cmd(:login) do
+  cmd(:login, "Login to a previously provisioned node") do
     environment = ARGV[0]
     ensure_in_correct_dir
     if environment == "development" || environment == "test"
@@ -205,7 +211,7 @@ class App
     end
   end
 
-  cmd(:provision) do
+  cmd(:provision, "Provision nodes using Metalfile configuration") do
     environment = ARGV[0]
     ensure_in_correct_dir
     ensure_policy_compiled
@@ -218,11 +224,11 @@ class App
     end
   end
 
-  cmd(:push) do
+  cmd(:push, "Upload policy changes to a Chef Server") do
     # Not demoed on its own.
   end
 
-  cmd(:deploy) do
+  cmd(:deploy, "Deploy local changes to a given environment") do
     respond_with("show_changes")
 
     response = STDIN.gets.chomp
