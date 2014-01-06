@@ -23,7 +23,10 @@
 
   }
 
-  "default_attributes": {},
-  "override_attributes": {}
-
+  "default_attributes": {
+      "foo" => "bar"
+  },
+  "override_attributes": {
+      "foo" => "baz"
+  }
 }

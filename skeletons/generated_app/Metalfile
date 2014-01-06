@@ -4,10 +4,24 @@
 # cluster of your stuff for testing.
 # The plan is this will be based on https://github.com/jkeiser/chef-metal
 
-environment(:local_dev) do
-  # code to specify a vagrant box...
+environment(:local) do
+  # Configuration of chef-client --local-mode
 end
 
-environment(:local_test) do
-  # code to specify a vagrant box...
+environment(:development) do
+  # Configuration for the development VM
+  provisioner :vagrant
+  platform "opscode-ubuntu-12.04"
+end
+
+environment(:test) do
+  # Configuration for the test VM
+  provisioner :vagrant
+  platform "opscode-ubuntu-12.04"
+end
+
+environment(:staging) do
+  # Configuration for the test VM
+  provisioner :ec2
+  platform "ubuntu-12.04"
 end
