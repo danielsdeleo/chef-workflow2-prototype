@@ -1,0 +1,11 @@
+=> Compiling policy 'demo'
+##progress 1
+=> Compilation successful.
+=> Comparing policy against Chef Server
+##progress 1
+=> Cookbooks to be uploaded: 
+=>   * demo
+=>   * postgres
+=> Nodes with policy 'demo', environment 'staging': 
+=>   * ec2-204-236-242-218.compute-1.amazonaws.com
+=> Continue with deploy? [Y / n]

@@ -219,11 +219,16 @@ class App
   end
 
   cmd(:push) do
-    # TODO
+    # Not demoed on its own.
   end
 
   cmd(:deploy) do
-    # TODO
+    respond_with("show_changes")
+
+    response = STDIN.gets.chomp
+    if response == "" || response.downcase == "y"
+      respond_with("deploy_changes")
+    end
   end
 end
 

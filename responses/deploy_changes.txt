@@ -1,0 +1,11 @@
+=> Uploading cookbook 'demo'
+##progress 2
+=> Uploading cookbook postgres'
+##progress 1
+=> Updating policy 'demo'
+##progress 3
+=> Connecting to 'ec2-204-236-242-218.compute-1.amazonaws.com'
+##progress 1
+=> Running chef-client on 'ec2-204-236-242-218.compute-1.amazonaws.com'
+##progress 10
+=> Deployment successful. 

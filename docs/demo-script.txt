@@ -153,31 +153,32 @@ $ wf2 diff ENV_NAME
 * cookbook postgres from Nothing => x.y.z
 * attribute default["hello_message"] from Nothing => "hello"
 
-################################################################################
-# TODO LINE
-################################################################################
-
-$ wf2 deploy ENV_NAME (or cell name, whatever)
-
-=> user hasn't configured any server, so prompt them to figure this out...
-
-$ $EDITOR hack server creds
-
-=> get client.pem, username
-
 $ wf2 deploy ENV_NAME (or cell name, whatever)
 
 => upload cookbooks
 => upload policy, apply to env/cell/deploy-group
 
-##QUESTION##
-what now? provision a node w/ chef-metal?
-future pushy integration will be cool, not in 1.0
+$ wf2 help
 
-$ wf2 apply? $VERB
+=> Show that you can also use wf2 to:
+   * Only upload necessary cookbooks
+   * Only push the policy 
+   * Only run CCRs on the necessary nodes
 
-## Possible cmds: ##
+################################################################################
+# Improvements:
+################################################################################
+## Provision nodes using Metalfile
+  `wf2 provision`: create some nodes from Metalfile
 
-`wf2 provision`: create some nodes from Metalfile
-`wf2 up/push`: just upload objects to chef server
-`wf2 deploy`: figures out what nodes should get the changes, provision if necessary, do up/push, ssh-to-chef?
+## Configure chef server connection via prompt
+  $ $EDITOR hack server creds
+  => get client.pem, username
+
+## Have an actual test-kitchen test amongst the integration tests
+
+################################################################################
+## QUESTIONS
+################################################################################
+## What now? provision a node w/ chef-metal?
+## Future pushy integration will be cool, not in 1.0
