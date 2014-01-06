@@ -144,8 +144,13 @@ class App
   end
 
   cmd(:compile) do
-    generate_from_skeleton("basic_policy", "Policyfile.lock.json", "Policyfile.lock.json")
-    respond_with("basic_compile")
+    if !File.exist?("Policyfile.lock.json")
+      generate_from_skeleton("basic_policy", "Policyfile.lock.json", "Policyfile.lock.json")
+      respond_with("basic_compile")
+    else
+      generate_from_skeleton("modified_policy", "Policyfile.lock.json", "Policyfile.lock.json")
+      respond_with("modified_compile")
+    end
   end
 
   cmd(:converge) do

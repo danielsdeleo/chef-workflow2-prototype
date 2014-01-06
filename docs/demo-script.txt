@@ -110,14 +110,12 @@ $ wf2 compile
 # cookbook, which might come a lot later in the related learnchef
 # content for this tool.
 #
-# TODO: update the compile command to generate a new
-# Policyfile.lock.json
 
 > Compiling ./Policyfile
 > Compiling policy "demo"
 > Expanded run_list to: recipe[demo::default]
 > Using cookbook "demo" version 0.1.0 from path ./cookbooks/demo
-> Using cookbook "tmux" version 1.4.2 from https://api.community.getchef.com
+> Using cookbook "postgresql" version 3.3.4 from git "git@github.com:hw-cookbooks/postgresql.git"
 >
 > Policy compiled. Use `wf2 compile` to update dependencies.
 
@@ -129,15 +127,8 @@ $ wf2 converge development
 
 => default config? Vagrant?
 => vagrant isn't installed, auto-install
-
-$ install-the-vagrant
-
-=> vbox/vagrant/etc.
-
-$ wf2 converge development
-
-=> create/resume VM, run
 => see output from chef run
+=> see that the policy attribute specified in the Policyfile is used in the convergence.
 
 $ wf2 login development
 
@@ -145,11 +136,15 @@ $ wf2 login development
 => Do something to show the box was converged
 => exit ssh session
 
-$ wf2 login test
+# You can also only provision the VM and converge chef any time you want.
+$ wf2 provision test
 
-=> Get ssh session on TK box
-=> poke at it to see it was converged
-=> exit ssh session
+=> Show that test is only provisioned
+
+# You can also only provision the VM and converge chef any time you want.
+$ wf2 converge test
+
+=> Show that test is only converged
 
 ################################################################################
 # TODO LINE
