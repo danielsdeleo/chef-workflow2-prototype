@@ -91,10 +91,9 @@ $ wf2 test unit
 
 $ $EDITOR hack code
 
-=> Make the cookbook(s) do more than just print stuff
+## Note: `sh bin/update-demo-files.sh` is a stand-in for this step
 
-## DISCUSSION: ##
-# For demo purposes, we want to use a community cookbook here, I think.
+=> Make the cookbook(s) do more than just print stuff
 
 $ wf2 compile
 
@@ -103,8 +102,8 @@ $ wf2 compile
 # cookbook, which might come a lot later in the related learnchef
 # content for this tool.
 #
-# We also need to think about the error case here. What happens if the
-# user doesn't recompile the policy?
+# TODO: update the compile command to generate a new
+# Policyfile.lock.json
 
 > Compiling ./Policyfile
 > Compiling policy "demo"
@@ -114,11 +113,14 @@ $ wf2 compile
 >
 > Policy compiled. Use `wf2 compile` to update dependencies.
 
+$ cat Policyfile.lock.json
+
+=> see updated locks including postgres.
 
 $ wf2 converge development
 
 => default config? Vagrant?
-=> vagrant isn't installed, print instructions
+=> vagrant isn't installed, auto-install
 
 $ install-the-vagrant
 
@@ -145,6 +147,17 @@ $ wf2 login test
 => poke at it to see it was converged
 => exit ssh session
 
+################################################################################
+# TODO LINE
+################################################################################
+
+$ wf2 diff ENV_NAME
+
+=> See what changed:
+* cookbook demo from Nothing => 0.1.0
+* cookbook postgres from Nothing => x.y.z
+* attribute default["hello_message"] from Nothing => "hello"
+
 $ wf2 deploy ENV_NAME (or cell name, whatever)
 
 => user hasn't configured any server, so prompt them to figure this out...
@@ -155,7 +168,6 @@ $ $EDITOR hack server creds
 
 $ wf2 deploy ENV_NAME (or cell name, whatever)
 
-=> compile policy to json (Policyfile.lock)
 => upload cookbooks
 => upload policy, apply to env/cell/deploy-group
 
