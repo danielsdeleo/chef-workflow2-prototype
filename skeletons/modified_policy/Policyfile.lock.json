@@ -11,7 +11,7 @@
 
     "demo" => {
       "version": "0.1.0",
-      "identifier": "cd5ae3eb80fe0990257db09f463d47fc0399b727",
+      "identifier": "0554e3a5461992a9ac158d888c875e8786919592",
       "source": { "path": "./cookbooks/demo" },
       "scm_identifier": {
         "vcs": "git",

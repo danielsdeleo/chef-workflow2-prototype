@@ -1,0 +1,21 @@
+=> Connecting to chef server
+##progress 1
+=> 'demo' policy for 'staging' environment:
+=> cookbooks:
+=>   'demo' will be updated from:
+[31m       identifier: cd5ae3eb80fe0990257db09f463d47fc0399b727[m
+       version: 0.1.0
+     to:
+[32m[m[32m       identifier: 0554e3a5461992a9ac158d888c875e8786919592[m
+       version: 0.1.0
+
+=>   'postgresql' will be updated from:
+[31m       identifier: null[m
+[31m       version: null[m
+     to:
+[32m[m[32m       identifier: 69811b5405aaf67861fbd13e42cd7d87cfd463a7[m
+[32m[m[32m       version: 3.3.4[m
+
+=> default_attributes:
+[31m   -   "foo" => "bar"[m
+[32m[m[32m   +   "hello-message" => "This is from policy attributes."[m

@@ -146,16 +146,16 @@ $ wf2 converge test
 
 => Show that test is only converged
 
-################################################################################
-# TODO LINE
-################################################################################
-
 $ wf2 diff ENV_NAME
 
 => See what changed:
 * cookbook demo from Nothing => 0.1.0
 * cookbook postgres from Nothing => x.y.z
 * attribute default["hello_message"] from Nothing => "hello"
+
+################################################################################
+# TODO LINE
+################################################################################
 
 $ wf2 deploy ENV_NAME (or cell name, whatever)
 

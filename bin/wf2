@@ -153,6 +153,10 @@ class App
     end
   end
 
+  cmd(:diff) do
+    respond_with("diff_policy")
+  end
+
   cmd(:converge) do
     environment = ARGV[0]
     ensure_in_correct_dir
