@@ -2,6 +2,10 @@
 ##progress 2
 => Uploading cookbook postgres'
 ##progress 1
+=> Uploading cookbook build-essential'
+##progress 1
+=> Uploading cookbook openssl'
+##progress 1
 => Updating policy 'demo'
 ##progress 3
 => Connecting to 'ec2-204-236-242-218.compute-1.amazonaws.com'
