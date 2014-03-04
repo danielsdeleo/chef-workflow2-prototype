@@ -21,6 +21,30 @@
 
     },
 
+    "apt" => {
+      "version": "1.8.4",
+      "identifier": "573c177bf7321c145a0a7b71db624163255b4965",
+      "source": {
+          "api": "https://community-api.getchef.com"
+      }
+    },
+
+    "build-essential" => {
+      "version": "1.3.4",
+      "identifier": "50a5aac53750bbaf1a6e750173c71ba8e1bb8bac",
+      "source": {
+          "api": "https://community-api.getchef.com"
+      }
+    },
+
+    "openssl" => {
+      "version": "1.1.0",
+      "identifier": "61ff445ab78105ada7dfea9906451138f8548e08",
+      "source": {
+          "api": "https://community-api.getchef.com"
+      }
+    },
+
     "postgresql" => {
       "version": "3.3.4",
       "identifier": "69811b5405aaf67861fbd13e42cd7d87cfd463a7",

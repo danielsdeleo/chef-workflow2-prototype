@@ -1,4 +1,4 @@
-$ wf2 create-app demo
+$ chef create-app demo
 
 => print any relevant global config
 => generate skeleton
@@ -42,19 +42,19 @@ $ cat Metalfile
 => probably defaults to vagrant, but could have commented out instructions for
    a "null" provisioner to manually managed VM or whatever.
 
-$ wf2 converge local
+$ chef converge local
 
-=> Error: you must compile your policy with `wf2 compile` before
+=> Error: you must compile your policy with `chef compile` before
   converging
 
-$ wf2 compile
+$ chef compile
 
 > Compiling ./Policyfile
 > Compiling policy "demo"
 > Expanded run_list to: recipe[demo::default]
 > Using cookbook "demo" version 0.1.0 from path ./cookbooks/demo
 >
-> Policy compiled. Use `wf2 compile` to update dependencies.
+> Policy compiled. Use `chef compile` to update dependencies.
 
 ## DISCUSSION ##
 # In the interest of speed (and quick dev feedback) we want to avoid
@@ -73,16 +73,16 @@ $ cat Policyfile.lock.json
 
 => See Policyfile.lock.json
 
-$ wf2 converge local
+$ chef converge local
 
 => run w/ chef-zero local mode.
 => should have a log/file/whatever resource that does something
 
-$ wf2 test unit
+$ chef test unit
 
 => chefspec
 
-$ wf2 test integration
+$ chef test integration
 
 => runs TK
 
@@ -103,7 +103,7 @@ $ less cookbooks/demo/recipes/default.rb
 => Note the below lines are changed:
 => include_recipe "postgresql"
 
-$ wf2 compile
+$ chef compile
 
 ## DISCUSSION:##
 # This step is only required if we suppose we're using a community
@@ -117,59 +117,59 @@ $ wf2 compile
 > Using cookbook "demo" version 0.1.0 from path ./cookbooks/demo
 > Using cookbook "postgresql" version 3.3.4 from git "git@github.com:hw-cookbooks/postgresql.git"
 >
-> Policy compiled. Use `wf2 compile` to update dependencies.
+> Policy compiled. Use `chef compile` to update dependencies.
 
 $ cat Policyfile.lock.json
 
 => see updated locks including postgres.
 
-$ wf2 converge development
+$ chef converge development
 
 => default config? Vagrant?
 => vagrant isn't installed, auto-install
 => see output from chef run
 => see that the policy attribute specified in the Policyfile is used in the convergence.
 
-$ wf2 login development
+$ chef login development
 
 => Get ssh session on the box
 => Do something to show the box was converged
 => exit ssh session
 
 # You can also only provision the VM and converge chef any time you want.
-$ wf2 provision test
+$ chef provision test
 
 => Show that test is only provisioned
 
 # You can also only provision the VM and converge chef any time you want.
-$ wf2 converge test
+$ chef converge test
 
 => Show that test is only converged
 
-$ wf2 diff ENV_NAME
+$ chef diff ENV_NAME
 
 => See what changed:
 * cookbook demo from Nothing => 0.1.0
 * cookbook postgres from Nothing => x.y.z
 * attribute default["hello_message"] from Nothing => "hello"
 
-$ wf2 deploy ENV_NAME (or cell name, whatever)
+$ chef deploy ENV_NAME (or cell name, whatever)
 
 => upload cookbooks
 => upload policy, apply to env/cell/deploy-group
 
-$ wf2 help
+$ chef help
 
-=> Show that you can also use wf2 to:
+=> Show that you can also use chef to:
    * Only upload necessary cookbooks
-   * Only push the policy 
+   * Only push the policy
    * Only run CCRs on the necessary nodes
 
 ################################################################################
 # Improvements:
 ################################################################################
 ## Provision nodes using Metalfile
-  `wf2 provision`: create some nodes from Metalfile
+  `chef provision`: create some nodes from Metalfile
 
 ## Configure chef server connection via prompt
   $ $EDITOR hack server creds

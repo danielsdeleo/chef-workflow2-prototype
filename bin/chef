@@ -122,7 +122,7 @@ class App
     if name.nil?
       # in real version we might allow `wf2 create-app .` to "initialize" an
       # existing app as a chefapp...
-      puts "Usage: wf2 create-app APPNAME"
+      puts "Usage: chef create-app APPNAME"
     elsif name != "demo"
       puts "This app is in demo mode. Send your CC details to sales@getchef.com to unlock. #lolz"
       exit 1
@@ -144,7 +144,7 @@ class App
 
   def ensure_policy_compiled
     unless File.exist?("Policyfile.lock.json")
-      puts "Error: you must compile your policy with `wf2 compile` before converging"
+      puts "Error: you must compile your policy with `chef compile` before converging"
       exit 1
     end
   end
@@ -188,7 +188,7 @@ class App
       exec "rspec", "spec/unit/default_spec.rb", "--format", "documentation", "--color"
     when "integration"
       # There is a bug in test-kitchen where
-      # Running test-kitchen directly here, we're hitting this issue: 
+      # Running test-kitchen directly here, we're hitting this issue:
       # https://github.com/mitchellh/vagrant/issues/2309
       # The first time run fails and the second one succeeds.
       # For a beautiful demo we run it once silenced and twice with all of its glory.

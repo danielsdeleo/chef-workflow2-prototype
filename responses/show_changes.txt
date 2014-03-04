@@ -6,6 +6,8 @@
 => Cookbooks to be uploaded: 
 =>   * demo
 =>   * postgres
+=>   * build-essential
+=>   * openssl
 => Nodes with policy 'demo', environment 'staging': 
 =>   * ec2-204-236-242-218.compute-1.amazonaws.com
 => Continue with deploy? [Y / n]
